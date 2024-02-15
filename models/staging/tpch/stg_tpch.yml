@@ -3,6 +3,10 @@ version: 2
 models:
   - name: stg_tpch_customers
     description: staging layer for customers data
+    tests:
+      - dbt_expectations.expect_table_column_count_to_be_between:
+          min_value: 1
+          max_value: 40
     columns:
       - name: customer_key
         description: primary key of the model
@@ -52,7 +56,7 @@ models:
         description: '{{ doc("return_flag") }}'
         tests:
           - accepted_values:
-              values: ['returned','accepted']
+              values: ["returned", "accepted"]
               severity: warn
       - name: is_return
         description: '{{ doc("is_return") }}'
@@ -60,7 +64,7 @@ models:
         description: status code of the order item
         tests:
           - accepted_values:
-              values: ['returned','billed','shipped']
+              values: ["returned", "billed", "shipped"]
       - name: ship_date
         description: '{{ doc("ship_date") }}'
       - name: commit_date
@@ -87,8 +91,8 @@ models:
       - name: region_key
         description: foreign key to stg_tpch_regions
       - name: comment
-        description: additional commentary             
- 
+        description: additional commentary
+
   - name: stg_tpch_orders
     description: staging layer for orders data
     columns:
@@ -132,7 +136,7 @@ models:
         description: '{{ doc("cost") }}'
       - name: comment
         description: '{{ doc("comment") }}'
-            
+
   - name: stg_tpch_parts
     description: staging layer for parts data
     columns:
