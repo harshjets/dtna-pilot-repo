@@ -1,15 +1,14 @@
 version: 2
 
-
 sources:
   - name: tpch
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw
     schema: tpch_sf001
     freshness: # make this a warning as this is static data
-          warn_after: {count: 12, period: hour}
+      warn_after: { count: 12, period: hour }
     loaded_at_field: current_timestamp() - interval '6.3 hours' #this is for demo purposes
-    tables:    
+    tables:
       - name: customer
         description: main customer table
         columns:
@@ -29,7 +28,7 @@ sources:
           - name: c_phone
             description: phone number of the customer
           - name: c_acctbal
-            description: raw account balance 
+            description: raw account balance
           - name: c_mktsegment
             description: market segment of the customer
           - name: c_comment
@@ -92,7 +91,7 @@ sources:
               - relationships:
                   to: source('tpch', 'part')
                   field: p_partkey
-          - name: ps_suppkey
+          - name: ps_    suppkey
             description: Foreign Key to S_SUPPKEY
             tests:
               - relationships:
@@ -101,7 +100,7 @@ sources:
           - name: ps_availqty
             description: raw available quantity
           - name: ps_supplycost
-            description: raw cost 
+            description: raw cost
           - name: ps_comment
             description: '{{ doc("comment") }}'
 
@@ -146,7 +145,7 @@ sources:
             description: raw account balance
           - name: s_comment
             description: '{{ doc("comment") }}'
-  
+
   - name: tpch_now
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw
@@ -154,14 +153,14 @@ sources:
     tables:
       - name: orders
         description: main order tracking table
-        
+
         columns:
           - name: o_orderkey
             description: SF*1,500,000 are sparsely populated
-            tests: 
+            tests:
               - unique
               - not_null
-                  
+
           - name: o_custkey
             description: Foreign Key to C_CUSTKEY
             tests:
@@ -193,7 +192,7 @@ sources:
                   to: source('tpch', 'orders')
                   field: o_orderkey
           - name: l_partkey
-            description:  Foreign key to P_PARTKEY, first part of the compound Foreign Key to (PS_PARTKEY,PS_SUPPKEY) with L_SUPPKEY
+            description: Foreign key to P_PARTKEY, first part of the compound Foreign Key to (PS_PARTKEY,PS_SUPPKEY) with L_SUPPKEY
             tests:
               - relationships:
                   to: source('tpch', 'part')
@@ -219,8 +218,8 @@ sources:
           - name: l_linestatus
             description: status code of the order item (P=returned, F=billed, O=shipped)
             tests:
-            - accepted_values:
-                values: ['P','F','O']
+              - accepted_values:
+                  values: ["P", "F", "O"]
           - name: l_shipdate
             description: the date the order item is being shipped
           - name: l_commitdate
